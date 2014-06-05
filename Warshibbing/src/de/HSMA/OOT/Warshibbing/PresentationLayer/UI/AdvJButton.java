@@ -1,4 +1,4 @@
-package de.HS.MA_68199.ME1321286_MT1332105_TB1329216.OOT.Projekt.Warshibbing.UI.Controls;
+package de.HSMA.OOT.Warshibbing.PresentationLayer.UI;
 
 import javax.swing.JButton;
 

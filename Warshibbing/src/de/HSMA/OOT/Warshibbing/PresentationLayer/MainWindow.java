@@ -1,6 +1,7 @@
-package de.HS.MA_68199.ME1321286_MT1332105_TB1329216.OOT.Projekt.Warshibbing;
+package de.HSMA.OOT.Warshibbing.PresentationLayer;
 
 //Imports
+import de.HSMA.OOT.Warshibbing.PresentationLayer.UI.AdvJButton;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -9,7 +10,6 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
-import de.HS.MA_68199.ME1321286_MT1332105_TB1329216.OOT.Projekt.Warshibbing.UI.Controls.*;
 
 public class MainWindow implements ActionListener {
 
