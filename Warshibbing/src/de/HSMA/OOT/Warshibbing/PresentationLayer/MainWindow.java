@@ -5,7 +5,6 @@ import de.HSMA.OOT.Warshibbing.PresentationLayer.UI.AdvJButton;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import net.miginfocom.swing.MigLayout;
 
 public class MainWindow extends Board implements ActionListener
 {
@@ -15,8 +14,8 @@ public class MainWindow extends Board implements ActionListener
     private JPanel panel;
     private AdvJButton[][][] buttons;
     private Timer timer;
-    private final int uiPadding = 10, uiButtonSpace = 2, uiButtonSize = 20;
-    private boolean debug = true;
+    private final int uiPad = 10, btnSpace = 2, btnSize = 20;
+    private final boolean debug = true;
 
     /**
      * Launch the application.
@@ -75,33 +74,33 @@ public class MainWindow extends Board implements ActionListener
                     button.addActionListener(this);
                     button.setSelected(false);
                     button.setText(game[p][x][y].toString());
-                    button.setBounds(
-                            x * (uiButtonSize + uiButtonSpace) + uiPadding,
-                            /* Important: We will add an offset to y if p > 0 (player 2)! */
-                            y * (uiButtonSize + uiButtonSpace) + uiPadding + (p%2) * (buttons[1].length * (uiButtonSize + uiButtonSpace) + (p%2) * (uiButtonSize)),
-                            uiButtonSize,
-                            uiButtonSize);
+                    
+                    int targetX = x * (btnSize+btnSpace) + uiPad;
+                    int targetY = y * (btnSize+btnSpace) + uiPad;
+                    
+                    button.setBounds(targetX, targetY + (p % 2) * (buttons[p][x].length * (btnSize + btnSpace) + (p % 2) * (btnSize)),
+                            btnSize,
+                            btnSize);
                     panel.add(button);
                     buttons[p][x][y] = button;
                 }
             }
         }
-        frame.setBounds(
-                100,
-                100,
-                ((uiPadding * players) + width * (uiButtonSize + uiButtonSpace) + uiButtonSpace + 12),
-                ((uiPadding * players) + height * (uiButtonSize + uiButtonSpace) + uiButtonSpace) * 2 + 30);
-        if (debug)
-        {
-            System.out.println("Initialization complete: Frame.getWidth(): " + frame.getWidth() + ", Frame.getHeight(=: " + frame.getHeight());
-        }
-        panel.setSize(frame.getSize());
         
-        timer = new Timer(15*60*1000, new ActionListener() {
-            public void actionPerformed(ActionEvent e)
-            {
-                System.exit(15);
-            }
+        frame.setBounds(100, 100, ((uiPad * players) + width * (btnSize + btnSpace) + btnSpace + 12), ((uiPad * players) + height * (btnSize + btnSpace) + btnSpace) * 2 + 30);
+        
+        if (debug)
+            System.out.println("Initialization complete: Frame.getWidth(): " + frame.getWidth() + ", Frame.getHeight(): " + frame.getHeight());
+        
+        panel.setSize(frame.getSize());
+
+        // Termination after 15 minutes
+        timer = new Timer(15 * 60 * 1000, new ActionListener()
+                  {
+                      public void actionPerformed(ActionEvent e)
+                      {
+                          System.exit(15);
+                      }
         });
     }
 
@@ -112,7 +111,7 @@ public class MainWindow extends Board implements ActionListener
         {
             AdvJButton source = (AdvJButton) arg0.getSource();
             JOptionPane.showMessageDialog(frame,
-                                          "Text:\t" + source.getText() + "\nID:\t" + source.getID() + "\nX:\t" + source.getIDX() + "\nY:\t" + source.getIDY(),
+                                          "Text:\t" + source.getText() + "\nID:\t" + source.getID() + "\nX:\t" + source.getIDX() + "\nY:\t" + source.getIDY()+1,
                                           "Warshibbing - Button pressed",
                                           0);
         }

@@ -11,7 +11,7 @@ import java.util.*;
 public abstract class Ship
 {
     private final Player playerRef;
-    private final Field[] fieldsRef;
+    private Field[] fieldsRef;
     private final List<Weapon> weapons = new ArrayList<>();
     private final Map<Weapon, Integer> ammo = new HashMap<>();
     private final boolean destroyed = false;
@@ -33,6 +33,11 @@ public abstract class Ship
     }
     
     public abstract int getLength();
+    
+    public void place(Field[] fields)
+    {
+        this.fieldsRef = fields;
+    }
     
     public boolean Shoot(Player targetPlayer, Weapon usedWeapon, Point targetField) throws Exception
     {

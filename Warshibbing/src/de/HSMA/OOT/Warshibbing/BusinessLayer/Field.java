@@ -7,6 +7,7 @@ package de.HSMA.OOT.Warshibbing.BusinessLayer;
 public class Field
 {   
     Object content;
+    boolean hitted = false, marked = false;
     
     public Field()
     {
@@ -18,13 +19,24 @@ public class Field
         this.content = content;
     }
     
+    public void setMark()
+    {
+        if(IsHit())
+            hitted = true;
+        else
+            marked = true;
+    }
+    
     public boolean IsHit()
     {
-        return content.getClass().isAssignableFrom(Ship.class);
+        return (content instanceof Ship);
     }
     
     @Override public String toString()
     {
-        return content == null ? "" : content.toString();
+        if(!hitted && !marked)
+            return content == null ? " " : content.toString();
+        else
+            return hitted ? "X" : "O";
     }
 }

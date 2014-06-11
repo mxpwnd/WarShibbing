@@ -1,5 +1,6 @@
 package de.HSMA.OOT.Warshibbing.BusinessLayer;
 
+import de.HSMA.OOT.Warshibbing.PresentationLayer.PresentationHelper;
 import java.awt.Point;
 import java.util.*;
 
@@ -12,31 +13,60 @@ public class Player
     static int pcount = 0;
     
     public int ID = 0;
-    public List<Ship> ships;
+    protected Board boardRef;
+    public List<Ship> availableShips;
+    public List<Ship> placedShips;
     
-    public Player(int shipCount)
+    public Player(Board ref, int shipCount)
     {
         ID = pcount++;
-        ships = new ArrayList<>(shipCount);
+        boardRef = ref;
+        availableShips = new ArrayList<>(shipCount);
+        placedShips = new ArrayList<>(shipCount);
+        
+        addShip(new Ship.Battleship(this, null));
+        addShip(new Ship.Battleship(this, null));
+        addShip(new Ship.Battleship(this, null));
+        addShip(new Ship.Battleship(this, null));
+        addShip(new Ship.Dreadnought(this, null));
+        addShip(new Ship.Dreadnought(this, null));
+        addShip(new Ship.Dreadnought(this, null));
     }
     
     protected void addShip(Ship ship)
     {
-        ships.add(ship);
+        availableShips.add(ship);
     }
     
     protected void removeShip(Ship ship)
     {
-        ships.remove(ship);
+        availableShips.remove(ship);
     }
     
-    public void handleTurn(Board presentation)
+    protected void handleTurn()
+    {
+        PresentationHelper ph = boardRef.GetPresentationHelper();
+        
+        if(ph.IsInputNeeded())
+        {
+            
+        }
+    }
+    
+    protected boolean handleShot(Weapon usedWeapon, Point target)
     {
         
+        
+        return false;
     }
     
-    public boolean handleShot(Weapon usedWeapon, Point target)
+    public List<Ship> getUnplacedShips()
     {
-        return false;
+        return availableShips;
+    }
+    
+    public List<Ship> getPlacedShips()
+    {
+        return placedShips;
     }
 }
