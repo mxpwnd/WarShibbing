@@ -134,9 +134,12 @@ public class MainWindow extends Board implements ActionListener
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+<<<<<<< HEAD
 
     @Override
     public void Draw(int playerIdx) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+=======
+>>>>>>> 77bb27fb5558fd4877b11d4e37b8eafd6625da54
 }

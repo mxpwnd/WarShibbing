@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
@@ -14,3 +15,21 @@
         </group>
     </open-files>
 </project-private>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Tobias/Documents/NetBeansProjects/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/PresentationLayer/CLI.java</file>
+            <file>file:/C:/Users/Tobias/Documents/NetBeansProjects/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/BusinessLayer/Weapon.java</file>
+            <file>file:/C:/Users/Tobias/Documents/NetBeansProjects/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/BusinessLayer/Board.java</file>
+            <file>file:/C:/Users/Tobias/Documents/NetBeansProjects/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/BusinessLayer/Ship.java</file>
+            <file>file:/C:/Users/Tobias/Documents/NetBeansProjects/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/PresentationLayer/MainWindow.java</file>
+            <file>file:/C:/Users/Tobias/Documents/NetBeansProjects/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/PresentationLayer/PresentationHelper.java</file>
+            <file>file:/C:/Users/Tobias/Documents/NetBeansProjects/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/BusinessLayer/Field.java</file>
+            <file>file:/C:/Users/Tobias/Documents/NetBeansProjects/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/BusinessLayer/Player.java</file>
+        </group>
+    </open-files>
+</project-private>
+>>>>>>> 77bb27fb5558fd4877b11d4e37b8eafd6625da54
