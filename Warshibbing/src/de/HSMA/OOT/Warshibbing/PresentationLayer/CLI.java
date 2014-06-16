@@ -1,13 +1,11 @@
 package de.HSMA.OOT.Warshibbing.PresentationLayer;
 
-import de.HSMA.OOT.Warshibbing.BusinessLayer.Board;
-import de.HSMA.OOT.Warshibbing.BusinessLayer.Field;
-import de.HSMA.OOT.Warshibbing.BusinessLayer.Player;
-import de.HSMA.OOT.Warshibbing.BusinessLayer.Ship;
+import de.HSMA.OOT.Warshibbing.BusinessLayer.*;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.AbstractMap;
+import java.util.Random;
 import javax.swing.Timer;
 
 /**
@@ -131,22 +129,57 @@ public class CLI extends Board {
      */
     private void SetupShips() {
         for (int pl = 0; pl < this.players; pl++) {
-            System.out.println("Player " + (pl + 1) + ", place your ships!");
-            boolean retry = false;
-            //Place all ships...
-            while (this.player[pl].getUnplacedShips().size() > 0) {
-                Draw(pl);
-                Ship sh = this.player[pl].getUnplacedShips().get(0);
-
-                Point p1 = presHelper.GetPointByBoardInput(
-                        "Where would you like to place this " + sh.getName() + " (length " + sh.getLength() + " units)?\n" +
-                        "(" + this.player[pl].getUnplacedShips().size() + " ships left to place)");
-
-                Ship.PlaceMode mode = presHelper.GetPlaceModeInput("How would you like to place it?\nEnter 'h' for horizontal, 'v' for vertical or 'd' for diagonal placement.");
+            
+            if(this.player[pl] instanceof CPUPlayer)
+            {
+                System.out.println("Computer is placing his Ships!");
+                Random r = new Random();
                 
-                AbstractMap.SimpleEntry<Boolean, String> result = placeFigure(player[pl], p1, sh, mode);
-                if(!result.getKey()) {
-                    System.err.println("Error: " + result.getValue());
+                while(this.player[pl].getUnplacedShips().size() > 0)
+                {
+                    Ship sh = this.player[pl].getUnplacedShips().get(0);
+                    Point p = new Point(r.nextInt(this.width-1), r.nextInt(this.height-1));
+                    Ship.PlaceMode mode = Ship.PlaceMode.Horizontal;
+                    int n = r.nextInt(100);
+                    
+                    if(n > 33 && n < 66)
+                        mode = Ship.PlaceMode.Vertical;
+                    else if(n > 33)
+                        mode = Ship.PlaceMode.Diagonal; 
+                    
+                    AbstractMap.SimpleEntry<Boolean, String> result = null;
+                    
+                    if(this.extendMode)
+                        result = placeFigure(player[pl], p, sh, mode);
+                    else
+                        result = placeFigure(player[pl], p, sh, Ship.PlaceMode.Horizontal);
+                }
+            }
+            else
+            {
+                System.out.println("Player " + (pl + 1) + ", place your ships!");
+                boolean retry = false;
+                //Place all ships...
+                while (this.player[pl].getUnplacedShips().size() > 0) 
+                {
+                    Draw(pl);
+                    Ship sh = this.player[pl].getUnplacedShips().get(0);
+
+                    Point p1 = presHelper.GetPointByBoardInput(
+                            "Where would you like to place this " + sh.getName() + " (length " + sh.getLength() + " units)?\n" +
+                            "(" + this.player[pl].getUnplacedShips().size() + " ships left to place)");
+                    
+                    Ship.PlaceMode mode = null;
+                    
+                    if(extendMode)
+                        mode = presHelper.GetPlaceModeInput("How would you like to place it?\nEnter 'h' for horizontal, 'v' for vertical or 'd' for diagonal placement.");
+                    else
+                        mode = Ship.PlaceMode.Horizontal;
+                                
+                    AbstractMap.SimpleEntry<Boolean, String> result = placeFigure(player[pl], p1, sh, mode);
+                    if(!result.getKey()) {
+                        System.err.println("Error: " + result.getValue());
+                    }
                 }
             }
         }
