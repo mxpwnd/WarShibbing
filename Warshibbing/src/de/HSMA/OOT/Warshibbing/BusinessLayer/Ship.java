@@ -12,9 +12,9 @@ public abstract class Ship
 {
     private final Player playerRef;
     private Field[] fieldsRef;
-    private final List<Weapon> weapons = new ArrayList<>();
-    private final Map<Weapon, Integer> ammo = new HashMap<>();
-    private final boolean destroyed = false;
+    protected final List<Weapon> weapons = new ArrayList<>();
+    protected final Map<Weapon, Integer> ammo = new HashMap<>();
+    protected final boolean destroyed = false;
     
     public Ship(Player ref, Field[] fields)
     {
@@ -25,11 +25,6 @@ public abstract class Ship
         
         weapons.add(w);
         ammo.put(w, Integer.MAX_VALUE);
-        
-        w = new NuclearWeapon();
-        
-        weapons.add(w);
-        ammo.put(w, (int)Math.ceil(getLength() / 2.0));
     }
     
     public abstract int getLength();
@@ -41,18 +36,26 @@ public abstract class Ship
     public void place(Field[] fields)
     {
         this.fieldsRef = fields;
-        for(Field fl : fields) {
+        
+        for(Field fl : fields) 
+        {
             fl.content = this;
         }
+        
         this.playerRef.removeShip(this);    //"This ship ain't available no more"
     }
     
-    public boolean Shoot(Player targetPlayer, Weapon usedWeapon, Point targetField) throws Exception
+    public boolean Shoot(Player targetPlayer, Weapon usedWeapon, Point targetField)
     {
         if(ammo.get(usedWeapon) > 0)
+        {
+            ammo.put(usedWeapon, ammo.get(usedWeapon)-1);
             return targetPlayer.handleShot(usedWeapon, targetField);
+        }
         else
-            throw new Exception("out of ammo");
+            playerRef.boardRef.GetPresentationHelper().PresentError("out of ammo");
+        
+        return false;
     }
     
     public boolean IsDestroyed()

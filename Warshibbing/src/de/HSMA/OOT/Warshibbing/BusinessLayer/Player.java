@@ -13,6 +13,7 @@ public class Player
     static int pcount = 0;
     
     public int ID = 0;
+    protected int nuclearOption = 3;
     protected Board boardRef;
     public List<Ship> availableShips;
     public List<Ship> placedShips;
@@ -72,15 +73,42 @@ public class Player
         
         if(ph.IsInputNeeded())
         {
+            Player targetPlayer = null;
+            int weaponCount = 0;
             
+            
+            if(boardRef.players >= 2)
+            {
+                 targetPlayer = boardRef.player[ph.GetIntInput("Please input target player: ")-1]; // select player
+            }
+            else
+                targetPlayer = this.ID == 1 ? boardRef.player[1] : boardRef.player[0];
+            
+            for(Ship p : placedShips)
+                weaponCount = weaponCount < p.weapons.size() ? p.weapons.size() : weaponCount; // search for weapons
+            
+            if(weaponCount > 1)
+            {
+                ph.GetIntInput("Please select a Ship:\n", 1, this.placedShips.size());
+                
+                
+            }
+            else
+            {
+                Point p = ph.GetPointByBoardInput("Please input the destination field: ");
+                this.placedShips.get(0).Shoot(targetPlayer, new Weapon.Cannon(), p);
+            }
+        }
+        else
+        {
+            //wait();
         }
     }
     
     protected boolean handleShot(Weapon usedWeapon, Point target)
     {
-        
-        
-        return false;
+        boardRef.getField(this, target).setMark();
+        return boardRef.getField(this, target).IsHit();
     }
     
     public List<Ship> getUnplacedShips()
