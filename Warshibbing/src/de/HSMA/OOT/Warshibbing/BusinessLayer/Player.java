@@ -28,6 +28,9 @@ public class Player
         Add ships:
         1/3 Battleships, 1/3 Submarines, 1/3 Dreadnoughts
         */
+        
+        if(ref.extendMode)
+        {
             for(int i = 0; i < shipCount; i++)
                 switch(i % 3) {
                     case 0:
@@ -40,6 +43,17 @@ public class Player
                         addShip(new Ship.Dreadnought(this, null));
                         break;
                 }
+        }
+        else
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                addShip(new Ship.Battleship(this,null));
+                
+                if(i != 3)
+                    addShip(new Ship.Dreadnought(this, null));
+            }
+        }
     }
     
     protected void addShip(Ship ship)

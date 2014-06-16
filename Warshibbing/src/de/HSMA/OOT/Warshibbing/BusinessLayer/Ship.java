@@ -33,7 +33,10 @@ public abstract class Ship
     }
     
     public abstract int getLength();
-    public abstract String getName();
+    
+    public String getName() {
+        return this.getClass().getSimpleName();
+    }
     
     public void place(Field[] fields)
     {
@@ -75,11 +78,6 @@ public abstract class Ship
         {
             return "B";
         }
-
-        @Override
-        public String getName() {
-            return "Battleship";
-        }
     }
     
     public static class Dreadnought extends Ship
@@ -99,11 +97,6 @@ public abstract class Ship
         public String toString()
         {
             return "D";
-        }
-
-        @Override
-        public String getName() {
-            return "Dreadnought";
         }
     }
     
@@ -125,10 +118,12 @@ public abstract class Ship
         {
             return "S";
         }
-
-        @Override
-        public String getName() {
-            return "Submarine";
-        }
     }
+    
+    public static enum PlaceMode
+    {
+        Horizontal,
+        Vertical, 
+        Diagonal
+    };
 }

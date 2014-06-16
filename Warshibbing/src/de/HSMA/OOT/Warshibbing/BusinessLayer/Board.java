@@ -13,6 +13,8 @@ public abstract class Board
     protected int height = 7;
     protected int players = 2;
     protected int activePlayer = 0;
+    protected int placeholder = 1;
+    protected boolean extendMode = false;
     
     protected Field[][][] game = null;
     protected Player[] player = null;
@@ -47,11 +49,11 @@ public abstract class Board
         
         for(int p = 0; p < players; p++)
         {
-            player[p] = new Player(this, (int)Math.ceil(Math.sqrt(width * height)/2.0));
+            player[p] = new Player(this, extendMode ? (int)Math.ceil(Math.sqrt(width * height)/2.0) : 7);
         }
     }
     
-    public void placeFigure(Player player, Point destination, Ship ship)
+    public void placeFigure(Player player, Point destination, Ship ship, Ship.PlaceMode mode)
     {
         int neededFields = ship.getLength();
         game[player.ID][destination.x][destination.y] = new Field(ship);
