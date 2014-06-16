@@ -33,6 +33,14 @@ public abstract class Ship
         return this.getClass().getSimpleName();
     }
     
+    public List<Weapon> getAvailWeapons() {
+        ArrayList<Weapon> wpns = new ArrayList<>();
+        for(Weapon wpn : weapons)
+            if(wpn.Ammo > 0)
+                wpns.add(wpn);
+        return wpns;
+    }
+    
     public void place(Field[] fields)
     {
         this.fieldsRef = fields;

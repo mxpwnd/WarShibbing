@@ -2,7 +2,9 @@ package de.HSMA.OOT.Warshibbing.PresentationLayer;
 
 import de.HSMA.OOT.Warshibbing.BusinessLayer.Ship;
 import de.HSMA.OOT.Warshibbing.BusinessLayer.Ship.PlaceMode;
+import de.HSMA.OOT.Warshibbing.BusinessLayer.Weapon;
 import java.awt.Point;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -16,6 +18,8 @@ public abstract class PresentationHelper
     public abstract String GetStringInput(String question);
     public abstract char GetCharChoiceInput(String question, String ans1, String ans2);
     public abstract Ship.PlaceMode GetPlaceModeInput(String question);
+    public abstract Ship GetShipInput(List<Ship> ships);
+    public abstract Weapon GetWeaponInput(Ship ship);
     public abstract int GetIntInput(String question);
     public abstract int GetIntInput(String question, int low, int high);
     public abstract boolean GetBoolInput(String question);
@@ -138,6 +142,35 @@ public abstract class PresentationHelper
                 }
             } while(true);
         }
+
+        @Override
+        public Ship GetShipInput(List<Ship> ships) {
+            int index = 0;
+            
+            System.out.println("Enter the number of a ship you'd like to select!");
+            for(int i = 0; i < ships.size(); i++) {
+                System.out.println("\t[" + (i + 1) + "]\t" + ships.get(i).getName());
+            }
+            index = GetIntInput("Your choice:", 1, ships.size());
+            
+            return ships.get(index - 1);
+        }
+
+        @Override
+        public Weapon GetWeaponInput(Ship ship) {
+            int index = 0;
+            List<Weapon> wpns = ship.getAvailWeapons();
+            
+            System.out.println("Enter the number of a weapon you'd like to use!");
+            for(int i = 0; i < wpns.size(); i++) {
+                System.out.println("\t[" + (i + 1) + "]\t" + wpns.get(i).getName());
+            }
+            index = GetIntInput("Your choice:", 1, wpns.size());
+            
+            return wpns.get(index - 1);
+        }
+        
+        
     }
     
     public static class GuiPresentationHelper extends PresentationHelper
@@ -201,6 +234,16 @@ public abstract class PresentationHelper
 
         @Override
         public Ship.PlaceMode GetPlaceModeInput(String question) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Ship GetShipInput(List<Ship> ships) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Weapon GetWeaponInput(Ship ship) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
         
