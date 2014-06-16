@@ -70,44 +70,55 @@ public class Player
     protected void handleTurn()
     {
         PresentationHelper ph = boardRef.GetPresentationHelper();
+        boolean hitted = false;
         
-        if(ph.IsInputNeeded())
+        do
         {
-            Player targetPlayer = null;
-            int weaponCount = 0;
-            
-            
-            if(boardRef.players >= 2)
+            if(ph.IsInputNeeded())
             {
-                 targetPlayer = boardRef.player[ph.GetIntInput("Please input target player: ")-1]; // select player
+                Player targetPlayer = null;
+                int weaponCount = 0;
+
+
+                if(boardRef.players >= 2)
+                {
+                     targetPlayer = boardRef.player[ph.GetIntInput("Please input target player: ")-1]; // select player
+                }
+                else
+                    targetPlayer = this.ID == 1 ? boardRef.player[1] : boardRef.player[0];
+
+                for(Ship p : placedShips)
+                    weaponCount = weaponCount < p.weapons.size() ? p.weapons.size() : weaponCount; // search for weapons
+
+                if(weaponCount > 1)
+                {
+                    Ship inputShip = ph.GetShipInput(placedShips);
+                    Weapon inputWeapon = ph.GetWeaponInput(inputShip);
+                    Point p = ph.GetPointByBoardInput("Please input target field: ");
+                    hitted = inputShip.Shoot(targetPlayer, inputWeapon, p);
+                }
+                else
+                {
+                    Point p = ph.GetPointByBoardInput("Please input target field: ");
+                    hitted = this.placedShips.get(0).Shoot(targetPlayer, new Weapon.Cannon(), p);
+                }
+                
+                if(hitted)
+                    System.out.println("HIT!!!");
+                else
+                    System.out.println("FAIL!!!");
             }
             else
-                targetPlayer = this.ID == 1 ? boardRef.player[1] : boardRef.player[0];
-            
-            for(Ship p : placedShips)
-                weaponCount = weaponCount < p.weapons.size() ? p.weapons.size() : weaponCount; // search for weapons
-            
-            if(weaponCount > 1)
             {
-                ph.GetIntInput("Please select a Ship:\n", 1, this.placedShips.size());
-                
-                
+                //wait();
             }
-            else
-            {
-                Point p = ph.GetPointByBoardInput("Please input the destination field: ");
-                this.placedShips.get(0).Shoot(targetPlayer, new Weapon.Cannon(), p);
-            }
-        }
-        else
-        {
-            //wait();
-        }
+            
+        }while(hitted);
     }
     
     protected boolean handleShot(Weapon usedWeapon, Point target)
     {
-        boardRef.getField(this, target).setMark();
+        usedWeapon.handleShot(boardRef.getField(this, target));
         return boardRef.getField(this, target).IsHit();
     }
     

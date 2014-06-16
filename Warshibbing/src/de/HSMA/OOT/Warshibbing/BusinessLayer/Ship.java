@@ -10,11 +10,10 @@ import java.util.*;
  */
 public abstract class Ship
 {
-    private final Player playerRef;
-    private Field[] fieldsRef;
+    protected final Player playerRef;
+    protected Field[] fieldsRef;
     protected final List<Weapon> weapons = new ArrayList<>();
     protected final Map<Weapon, Integer> ammo = new HashMap<>();
-    protected final boolean destroyed = false;
     
     public Ship(Player ref, Field[] fields)
     {
@@ -68,7 +67,11 @@ public abstract class Ship
     
     public boolean IsDestroyed()
     {
-        return destroyed;
+        for(Field f : fieldsRef)
+            if(!f.hitted)
+                return false;
+        
+        return true;
     }
     
     public static class Battleship extends Ship

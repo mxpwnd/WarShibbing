@@ -9,7 +9,7 @@ public abstract class Weapon
     public int Ammo = Integer.MAX_VALUE;
     
     public abstract int getHits(Ship ship);
-    public abstract void handleHit(Field field);
+    public abstract void handleShot(Field field);
     
     public String getName()
     {
@@ -25,9 +25,16 @@ public abstract class Weapon
         }
 
         @Override
-        public void handleHit(Field field)
+        public void handleShot(Field field)
         {
             field.setMark();
+            if(field.IsHit())
+            {
+                Ship p = (Ship)field.content;
+                
+                if(p.IsDestroyed())
+                    p.playerRef.placedShips.remove(p);
+            }
         }
     }
     
@@ -40,11 +47,17 @@ public abstract class Weapon
         }
 
         @Override
-        public void handleHit(Field field)
+        public void handleShot(Field field)
         {
             if(field.IsHit())
             {
                 Ship p = (Ship)field.content;
+                Field[] fields = p.fieldsRef;
+                
+                for(Field f : fields)
+                    f.setMark();
+                
+                p.playerRef.placedShips.remove(p);
             }
         }
         
