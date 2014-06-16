@@ -93,8 +93,9 @@ public abstract class Board
             for(int d = 0; d < 2; d++) //X or Y?
                 for(int w = -1; w <= 1; w+=2) //Left or Right?
                     for(int s = 1; s < placeholder + 1; s++) //Step/Distance
-                        if(game[player.ID][p1.x + (d == 0 ? w * s : 0)][p1.y + (d == 0 ? w * s : 0)].IsHit())
-                            return new SimpleEntry<>(false, "neighbour-field already occupied");
+                        if(p1.x + (d == 0 ? w * s : 0) >= 0 && p1.x + (d == 0 ? w * s : 0) < width && p1.y + (d == 1 ? w * s : 0) >= 0 && p1.y + (d == 1 ? w * s : 0) < height)
+                            if(game[player.ID][p1.x + (d == 0 ? w * s : 0)][p1.y + (d == 1 ? w * s : 0)].IsHit())
+                                return new SimpleEntry<>(false, "neighbour-field already occupied");
             
             p1.x += offset[0];
             p1.y += offset[1];
