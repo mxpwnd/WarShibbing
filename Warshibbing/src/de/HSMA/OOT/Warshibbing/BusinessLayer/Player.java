@@ -67,7 +67,11 @@ public class Player
         availableShips.remove(ship);
     }
     
-    protected void handleTurn()
+    public boolean defeated() {
+        return this.getPlacedShips().size() == 0;
+    }
+    
+    public void handleTurn()
     {
         PresentationHelper ph = boardRef.GetPresentationHelper();
         boolean hitted = false;

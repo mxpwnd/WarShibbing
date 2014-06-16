@@ -17,7 +17,7 @@ public class CPUPlayer extends Player {
     }
     
     @Override
-    protected void handleTurn() {
+    public void handleTurn() {
         //Select a random player
         int pID = 0;
         do {

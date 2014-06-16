@@ -190,16 +190,29 @@ public class CLI extends Board {
      * The actual game starts here
      */
     private void Start() {
-        printMenu();
+        //printMenu();
+        int counter = 0;
         do {
             try {
-                String inp = presHelper.GetStringInput("Enter the desired command:");
-                processInput(inp);
+                Draw();
+                player[counter].handleTurn();
+                do {
+                    counter++;
+                    counter %= this.player.length;
+                } while(player[counter].defeated());
             } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
 
-        } while (!aborted);
+        } while (!aborted && !gameOver());
+    }
+    
+    private boolean gameOver() {
+        int defeatedPlayers = 0;
+        for(Player pl : player) 
+            if(pl.defeated())
+                defeatedPlayers++;
+        return defeatedPlayers == player.length - 1;
     }
 
     private void printMenu() {
