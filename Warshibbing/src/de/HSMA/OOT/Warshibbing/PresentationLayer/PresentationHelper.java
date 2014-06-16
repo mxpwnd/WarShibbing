@@ -14,6 +14,7 @@ public abstract class PresentationHelper
     public abstract String GetStringInput(String question);
     public abstract char GetCharChoiceInput(String question, String ans1, String ans2);
     public abstract int GetIntInput(String question);
+    public abstract int GetIntInput(String question, int low, int high);
     public abstract boolean GetBoolInput(String question);
     public abstract Point GetPointInput(String question);
     public abstract Point GetPointByBoardInput(String question);
@@ -101,6 +102,22 @@ public abstract class PresentationHelper
             int y = scanner.nextInt() - 1;
             return new Point(x,y);
         }
+
+        @Override
+        public int GetIntInput(String question, int low, int high)
+        {
+            int input = -1;
+            
+            do
+            {
+                System.out.print(question);
+                input = scanner.nextInt();
+                System.out.println("");
+                
+            }while(input < low || input > high);
+            
+            return input;
+        }
     }
     
     public static class GuiPresentationHelper extends PresentationHelper
@@ -153,6 +170,12 @@ public abstract class PresentationHelper
 
         @Override
         public Point GetPointByBoardInput(String question) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public int GetIntInput(String question, int low, int high)
+        {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
         
