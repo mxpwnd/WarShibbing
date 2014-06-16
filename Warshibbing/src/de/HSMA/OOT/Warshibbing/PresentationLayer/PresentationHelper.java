@@ -1,5 +1,7 @@
 package de.HSMA.OOT.Warshibbing.PresentationLayer;
 
+import de.HSMA.OOT.Warshibbing.BusinessLayer.Ship;
+import de.HSMA.OOT.Warshibbing.BusinessLayer.Ship.PlaceMode;
 import java.awt.Point;
 import java.util.Scanner;
 
@@ -13,6 +15,7 @@ public abstract class PresentationHelper
     
     public abstract String GetStringInput(String question);
     public abstract char GetCharChoiceInput(String question, String ans1, String ans2);
+    public abstract Ship.PlaceMode GetPlaceModeInput(String question);
     public abstract int GetIntInput(String question);
     public abstract int GetIntInput(String question, int low, int high);
     public abstract boolean GetBoolInput(String question);
@@ -118,6 +121,23 @@ public abstract class PresentationHelper
             
             return input;
         }
+
+        @Override
+        public PlaceMode GetPlaceModeInput(String question) {
+            System.out.println(question);
+            String input = "";
+            do {
+                input = scanner.next() + scanner.nextLine();
+                switch(input.charAt(0)) {
+                    case 'h':
+                            return PlaceMode.Horizontal;
+                    case 'v':
+                            return PlaceMode.Vertical;
+                    case 'd':
+                            return PlaceMode.Diagonal;
+                }
+            } while(true);
+        }
     }
     
     public static class GuiPresentationHelper extends PresentationHelper
@@ -176,6 +196,11 @@ public abstract class PresentationHelper
         @Override
         public int GetIntInput(String question, int low, int high)
         {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Ship.PlaceMode GetPlaceModeInput(String question) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
         

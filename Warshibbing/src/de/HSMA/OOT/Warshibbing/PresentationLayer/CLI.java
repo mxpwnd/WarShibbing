@@ -7,6 +7,7 @@ import de.HSMA.OOT.Warshibbing.BusinessLayer.Ship;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.AbstractMap;
 import javax.swing.Timer;
 
 /**
@@ -134,63 +135,18 @@ public class CLI extends Board {
             boolean retry = false;
             //Place all ships...
             while (this.player[pl].getUnplacedShips().size() > 0) {
-                retry = false;
                 Draw(pl);
                 Ship sh = this.player[pl].getUnplacedShips().get(0);
 
                 Point p1 = presHelper.GetPointByBoardInput(
                         "Where would you like to place this " + sh.getName() + " (length " + sh.getLength() + " units)?\n" +
                         "(" + this.player[pl].getUnplacedShips().size() + " ships left to place)");
-                if (p1.x >= this.width || p1.y >= this.height || p1.x < 0 || p1.y < 0) {
-                    presHelper.PresentError("The destination you entered is out of bounds!");
-                    continue;
-                }
 
-                boolean hori = presHelper.GetCharChoiceInput("How would you like to place it?", "horizontally", "vertically") == 'h';
-                if (hori) {  //Place horizontally
-                    //Will the ship fit at the given destination?
-                    if (p1.x + sh.getLength() > this.width) {
-                        presHelper.PresentError(ErrPointOutOfBounds);
-                        continue;
-                    }
-                    //Does any other ship intersect?
-                    for (int i = p1.x; i < p1.x + sh.getLength(); i++) {
-                        if (!this.game[pl][i][p1.y].isEmpty()) {
-                            presHelper.PresentError(ErrShipsIntersect);
-                            retry = true;
-                        }
-                    }
-                    if (retry) {
-                        continue;
-                    }
-                    //Place the ship!
-                    Field[] fields = new Field[sh.getLength()];
-                    for (int i = 0; i < sh.getLength(); i++) {
-                        fields[i] = this.game[pl][p1.x + i][p1.y];
-                    }
-                    sh.place(fields);
-
-                } else {  //Place vertically
-                    if (p1.y + sh.getLength() > this.height) {
-                        presHelper.PresentError(ErrPointOutOfBounds);
-                        continue;
-                    }
-                    //Does any other ship intersect?
-                    for (int i = p1.y; i < p1.y + sh.getLength(); i++) {
-                        if (!this.game[pl][p1.x][i].isEmpty()) {
-                            presHelper.PresentError(ErrShipsIntersect);
-                            retry = true;
-                        }
-                    }
-                    if (retry) {
-                        continue;
-                    }
-                    //Place the ship!
-                    Field[] fields = new Field[sh.getLength()];
-                    for (int i = 0; i < sh.getLength(); i++) {
-                        fields[i] = this.game[pl][p1.x][p1.y + i];
-                    }
-                    sh.place(fields);
+                Ship.PlaceMode mode = presHelper.GetPlaceModeInput("How would you like to place it?\nEnter 'h' for horizontal, 'v' for vertical or 'd' for diagonal placement.");
+                
+                AbstractMap.SimpleEntry<Boolean, String> result = placeFigure(player[pl], p1, sh, mode);
+                if(!result.getKey()) {
+                    System.err.println("Error: " + result.getValue());
                 }
             }
         }

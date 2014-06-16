@@ -13,7 +13,6 @@ public abstract class Board
     protected int width = 11;
     protected int height = 7;
     protected int players = 2;
-    protected int activePlayer = 0;
     protected int placeholder = 1;
     protected boolean extendMode = false;
     
