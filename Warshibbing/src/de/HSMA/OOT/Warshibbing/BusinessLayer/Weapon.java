@@ -11,6 +11,11 @@ public abstract class Weapon
     public abstract int getHits(Ship ship);
     public abstract void handleHit(Field field);
     
+    public String getName()
+    {
+        return this.getClass().getSimpleName();
+    }
+    
     public static class Cannon extends Weapon
     {
         @Override
@@ -22,7 +27,7 @@ public abstract class Weapon
         @Override
         public void handleHit(Field field)
         {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            field.setMark();
         }
     }
     
@@ -37,7 +42,10 @@ public abstract class Weapon
         @Override
         public void handleHit(Field field)
         {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            if(field.IsHit())
+            {
+                Ship p = (Ship)field.content;
+            }
         }
         
     }
