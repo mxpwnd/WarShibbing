@@ -13,6 +13,7 @@ public abstract class Board
     protected int width = 11;
     protected int height = 7;
     protected int players = 2;
+    protected int cpuPlayers = 1;
     protected int placeholder = 1;
     protected boolean extendMode = false;
     
@@ -46,10 +47,17 @@ public abstract class Board
                     game[p][x][y] = new Field();
         
         player = new Player[players];
+        int toAddedPlayers = players;
         
         for(int p = 0; p < players; p++)
         {
-            player[p] = new Player(this, extendMode ? (int)Math.ceil(Math.sqrt(width * height)/2.0) : 7);
+            
+            if(toAddedPlayers - cpuPlayers <= 0)
+                player[p] = new CPUPlayer(this, extendMode ? (int)Math.ceil(Math.sqrt(width*height)/2.0) : 7);
+            else
+                player[p] = new Player(this, extendMode ? (int)Math.ceil(Math.sqrt(width * height)/2.0) : 7);
+            
+            toAddedPlayers--;
         }
     }
     

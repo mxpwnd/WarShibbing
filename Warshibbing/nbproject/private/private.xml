@@ -3,16 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Mo/Documents/GitHub/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/PresentationLayer/CLI.java</file>
-            <file>file:/C:/Users/Mo/Documents/GitHub/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/PresentationLayer/PresentationHelper.java</file>
-            <file>file:/C:/Users/Mo/Documents/GitHub/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/BusinessLayer/Field.java</file>
-            <file>file:/C:/Users/Mo/Documents/GitHub/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/BusinessLayer/Ship.java</file>
-            <file>file:/C:/Users/Mo/Documents/GitHub/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/BusinessLayer/Weapon.java</file>
-            <file>file:/C:/Users/Mo/Documents/GitHub/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/BusinessLayer/Player.java</file>
-            <file>file:/C:/Users/Mo/Documents/GitHub/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/BusinessLayer/Board.java</file>
-            <file>file:/C:/Users/Mo/Documents/GitHub/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/PresentationLayer/MainWindow.java</file>
-            <file>file:/C:/Users/Mo/Documents/GitHub/WarShibbing/Warshibbing/nbproject/project.properties</file>
-            <file>file:/C:/Users/Mo/Documents/GitHub/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/PresentationLayer/UI/AdvJButton.java</file>
+            <file>file:/C:/Users/Tobias/Documents/NetBeansProjects/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/PresentationLayer/CLI.java</file>
+            <file>file:/C:/Users/Tobias/Documents/NetBeansProjects/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/BusinessLayer/Weapon.java</file>
+            <file>file:/C:/Users/Tobias/Documents/NetBeansProjects/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/BusinessLayer/Board.java</file>
+            <file>file:/C:/Users/Tobias/Documents/NetBeansProjects/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/BusinessLayer/Ship.java</file>
+            <file>file:/C:/Users/Tobias/Documents/NetBeansProjects/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/BusinessLayer/CPUPlayer.java</file>
+            <file>file:/C:/Users/Tobias/Documents/NetBeansProjects/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/BusinessLayer/Field.java</file>
+            <file>file:/C:/Users/Tobias/Documents/NetBeansProjects/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/PresentationLayer/UI/AdvJButton.java</file>
+            <file>file:/C:/Users/Tobias/Documents/NetBeansProjects/WarShibbing/Warshibbing/src/de/HSMA/OOT/Warshibbing/BusinessLayer/Player.java</file>
         </group>
     </open-files>
 </project-private>

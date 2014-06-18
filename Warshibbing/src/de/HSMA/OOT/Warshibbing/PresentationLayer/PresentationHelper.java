@@ -13,13 +13,11 @@ import java.util.Scanner;
  */
 public abstract class PresentationHelper
 {   
-    Scanner scanner = new Scanner(System.in);
-    
     public abstract String GetStringInput(String question);
     public abstract char GetCharChoiceInput(String question, String ans1, String ans2);
     public abstract Ship.PlaceMode GetPlaceModeInput(String question);
     public abstract Ship GetShipInput(List<Ship> ships);
-    public abstract Weapon GetWeaponInput(Ship ship);
+    public abstract Weapon GetWeaponInput(Ship ship, boolean nuclear);
     public abstract int GetIntInput(String question);
     public abstract int GetIntInput(String question, int low, int high);
     public abstract boolean GetBoolInput(String question);
@@ -27,10 +25,12 @@ public abstract class PresentationHelper
     public abstract Point GetPointByBoardInput(String question);
     public abstract void PresentError(String message);
     public abstract void PresentError(Exception ex);
+    public abstract void PresentInfo(String message);
     public abstract boolean IsInputNeeded();
     
     public static class CommandLinePresentationHelper extends PresentationHelper
     {
+        Scanner scanner = new Scanner(System.in);
 
         @Override
         public String GetStringInput(String question)
@@ -59,7 +59,7 @@ public abstract class PresentationHelper
             System.out.println(question);
             System.out.print("X = ");
             int x = scanner.nextInt();
-            System.out.print("\nY = ");
+            System.out.print("Y = ");
             int y = scanner.nextInt();
             return new Point(x,y);
         }
@@ -104,8 +104,8 @@ public abstract class PresentationHelper
             System.out.println(question);
             System.out.print("X = ");
             String input = scanner.next() + scanner.nextLine();
-            int x = ((int)input.charAt(0)) - 65;
-            System.out.print("\nY = ");
+            int x = ((int)input.toUpperCase().charAt(0)) - 65;
+            System.out.print("Y = ");
             int y = scanner.nextInt() - 1;
             return new Point(x,y);
         }
@@ -119,7 +119,6 @@ public abstract class PresentationHelper
             {
                 System.out.print(question);
                 input = scanner.nextInt();
-                System.out.println("");
                 
             }while(input < low || input > high);
             
@@ -157,20 +156,27 @@ public abstract class PresentationHelper
         }
 
         @Override
-        public Weapon GetWeaponInput(Ship ship) {
+        public Weapon GetWeaponInput(Ship ship, boolean nuclear) {
             int index = 0;
             List<Weapon> wpns = ship.getAvailWeapons();
             
+            if(nuclear)
+                wpns.add(new Weapon.NuclearWeapon());
+            
             System.out.println("Enter the number of a weapon you'd like to use!");
             for(int i = 0; i < wpns.size(); i++) {
-                System.out.println("\t[" + (i + 1) + "]\t" + wpns.get(i).getName());
+                System.out.println("\t[" + (i + 1) + "]  " + wpns.get(i).getName());
             }
-            index = GetIntInput("Your choice:", 1, wpns.size());
+            index = GetIntInput("Your choice: ", 1, wpns.size());
             
             return wpns.get(index - 1);
         }
-        
-        
+
+        @Override
+        public void PresentInfo(String message)
+        {
+            System.out.println(message);
+        }
     }
     
     public static class GuiPresentationHelper extends PresentationHelper
@@ -243,7 +249,14 @@ public abstract class PresentationHelper
         }
 
         @Override
-        public Weapon GetWeaponInput(Ship ship) {
+        public Weapon GetWeaponInput(Ship ship, boolean nuclear)
+        {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void PresentInfo(String message)
+        {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
         

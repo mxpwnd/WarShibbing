@@ -24,10 +24,13 @@ public class CLI extends Board {
 
     public static void main(String[] args) {
         timer = new Timer(15 * 60 * 1000, new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(15);
             }
         });
+        
+        timer.start();
         instance = new CLI(11, 7, 2);
         instance.SetupBoard();
         instance.Initialize();
@@ -118,9 +121,10 @@ public class CLI extends Board {
      * board
      */
     private void SetupBoard() {
-        this.width = presHelper.GetIntInput("Please enter the board's width:");
-        this.height = presHelper.GetIntInput("Please enter the board's height:");
-        this.players = presHelper.GetIntInput("Please enter the number of players:");
+        this.width = presHelper.GetIntInput("Please enter the board's width: ", 5, 26);
+        this.height = presHelper.GetIntInput("Please enter the board's height: ", 5, 26);
+        this.players = presHelper.GetIntInput("Please enter the number of players: ", 2, 10);
+        this.cpuPlayers = presHelper.GetIntInput("Please enter the number of cpu-players: ", 0, players);
     }
 
     /**
@@ -198,13 +202,20 @@ public class CLI extends Board {
                 player[counter].handleTurn();
                 do {
                     counter++;
-                    counter %= this.player.length;
+                    counter %= this.players;
                 } while(player[counter].defeated());
             } catch (Exception e) {
-                System.err.println(e.getMessage());
+                e.printStackTrace();
+                System.err.println("ERROR!!!");
             }
 
         } while (!aborted && !gameOver());
+        
+        for(Player p : player)
+            if(!p.defeated() && p instanceof CPUPlayer)
+                System.out.println("Computer " + (p.ID+1) + " wins!");
+            else if(!p.defeated())
+                System.out.println("Player " + (p.ID+1) + " wins!");
     }
     
     private boolean gameOver() {
@@ -212,34 +223,6 @@ public class CLI extends Board {
         for(Player pl : player) 
             if(pl.defeated())
                 defeatedPlayers++;
-        return defeatedPlayers == player.length - 1;
-    }
-
-    private void printMenu() {
-        System.out.println(
-                Border + "\n"
-                + " ~Warshibbing~\n"
-                + Border + "\n"
-                + " Command         Explanation\n"
-                + Border + "\n"
-                + " help            Show this menu\n"
-                + " exit            Exits the game"
-                + Border + "\n"
-        );
-    }
-
-    private void processInput(String input) {
-        switch (input) {
-            case "exit":
-                aborted = true;
-                break;
-            case "?":
-            case "help":
-                printMenu();
-                break;
-            default:
-                presHelper.PresentError("Unknown command \"" + input + "\"!");
-                break;
-        }
+        return defeatedPlayers == (players-1);
     }
 }

@@ -11,29 +11,30 @@ import java.util.*;
 public class Player
 {
     static int pcount = 0;
-    
+
     public int ID = 0;
     protected int nuclearOption = 3;
     protected Board boardRef;
     public List<Ship> availableShips;
     public List<Ship> placedShips;
-    
+
     public Player(Board ref, int shipCount)
     {
         ID = pcount++;
         boardRef = ref;
         availableShips = new ArrayList<>(shipCount);
         placedShips = new ArrayList<>(shipCount);
-        
+
         /*
-        Add ships:
-        1/3 Battleships, 1/3 Submarines, 1/3 Dreadnoughts
-        */
-        
-        if(ref.extendMode)
+         Add ships:
+         1/3 Battleships, 1/3 Submarines, 1/3 Dreadnoughts
+         */
+        if (ref.extendMode)
         {
-            for(int i = 0; i < shipCount; i++)
-                switch(i % 3) {
+            for (int i = 0; i < shipCount; i++)
+            {
+                switch (i % 3)
+                {
                     case 0:
                         addShip(new Ship.Battleship(this, null));
                         break;
@@ -44,73 +45,75 @@ public class Player
                         addShip(new Ship.Dreadnought(this, null));
                         break;
                 }
+            }
         }
         else
         {
-            for(int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
-                addShip(new Ship.Battleship(this,null));
-                
-                if(i != 3)
+                addShip(new Ship.Battleship(this, null));
+
+                if (i != 3)
+                {
                     addShip(new Ship.Dreadnought(this, null));
+                }
             }
         }
     }
-    
+
     protected void addShip(Ship ship)
     {
         availableShips.add(ship);
     }
-    
+
     protected void removeShip(Ship ship)
     {
         availableShips.remove(ship);
     }
-    
-    public boolean defeated() {
-        return this.getPlacedShips().size() == 0;
+
+    public boolean defeated()
+    {
+        return getPlacedShips().isEmpty();
     }
-    
+
     public void handleTurn()
     {
         PresentationHelper ph = boardRef.GetPresentationHelper();
         boolean hitted = false;
-        
+
         do
         {
-            if(ph.IsInputNeeded())
+            if (ph.IsInputNeeded())
             {
-                Player targetPlayer = null;
+                Player targetPlayer;
+                Weapon inputWeapon;
+                Ship inputShip;
+                boolean isNukeAvail = nuclearOption > 0;
                 int weaponCount = 0;
 
-
-                if(boardRef.players >= 2)
-                {
-                     targetPlayer = boardRef.player[ph.GetIntInput("Please input target player: ")-1]; // select player
-                }
+                if (boardRef.players > 2)
+                    targetPlayer = boardRef.player[ph.GetIntInput("Please input target player: ") - 1]; // select player
                 else
-                    targetPlayer = this.ID == 1 ? boardRef.player[1] : boardRef.player[0];
+                    targetPlayer = this.ID == 0 ? boardRef.player[1] : boardRef.player[0];
 
-                for(Ship p : placedShips)
+                for (Ship p : placedShips)
                     weaponCount = weaponCount < p.weapons.size() ? p.weapons.size() : weaponCount; // search for weapons
-
-                if(weaponCount > 1)
-                {
-                    Ship inputShip = ph.GetShipInput(placedShips);
-                    Weapon inputWeapon = ph.GetWeaponInput(inputShip);
-                    Point p = ph.GetPointByBoardInput("Please input target field: ");
-                    hitted = inputShip.Shoot(targetPlayer, inputWeapon, p);
-                }
-                else
-                {
-                    Point p = ph.GetPointByBoardInput("Please input target field: ");
-                    hitted = this.placedShips.get(0).Shoot(targetPlayer, new Weapon.Cannon(), p);
-                }
                 
-                if(hitted)
-                    System.out.println("HIT!!!");
+                if (weaponCount > 1) // there are more weapons beside the cannon
+                {
+                    inputShip = ph.GetShipInput(placedShips);
+                    inputWeapon = ph.GetWeaponInput(inputShip, isNukeAvail);
+                }
                 else
-                    System.out.println("FAIL!!!");
+                {
+                    inputShip = placedShips.get(0);
+                    inputWeapon = isNukeAvail ? ph.GetWeaponInput(inputShip, true) : new Weapon.Cannon(); // cannon or nuclear option
+                }
+
+                Point p = ph.GetPointByBoardInput("Please input target field: ");
+                hitted = inputShip.Shoot(targetPlayer, inputWeapon, p);
+
+                System.out.println(hitted ? "HIT!!!" : "FAIL!!!");
             }
             else
             {

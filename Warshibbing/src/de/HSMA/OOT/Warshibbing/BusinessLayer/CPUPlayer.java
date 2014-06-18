@@ -2,6 +2,7 @@ package de.HSMA.OOT.Warshibbing.BusinessLayer;
 
 import java.awt.Point;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.Random;
 
 /**
  *
@@ -19,31 +20,26 @@ public class CPUPlayer extends Player {
     @Override
     public void handleTurn() {
         //Select a random player
+        Random r = new Random();
+        
         int pID = 0;
         do {
-            pID = (int)(Math.random() * (this.boardRef.player.length - 1)); 
-        } while(pID != this.ID);
+            pID = r.nextInt(this.boardRef.players);
+        } while(pID == this.ID || boardRef.player[pID].defeated());
         
         //Select a random field
         int x = 0, y = 0;
-        if(lastHit.getKey()) {  //Near our last hit
-            do {
-                do {
-                    x = lastHit.getValue().x + (2 + (int)(Math.random() * 2) * (Math.random() > 0.5 ? 1 : -1));
-                    y = lastHit.getValue().y + (2 + (int)(Math.random() * 2) * (Math.random() > 0.5 ? 1 : -1));
-                } while(x < 0 || y < 0 || x >= boardRef.width || y <= boardRef.height);
-            } while(boardRef.game[pID][x][y].hitted || boardRef.game[pID][x][y].marked);
-        } else {                //Random!
-            do {
-                x = (int)(Math.random() * (this.boardRef.width-1));
-                y = (int)(Math.random() * (this.boardRef.height-1));
-            } while(boardRef.game[pID][x][y].hitted || boardRef.game[pID][x][y].marked);
-        }
+               //Random!
+        do {
+            x = r.nextInt(boardRef.width);
+            y = r.nextInt(boardRef.height);
+        } while(boardRef.game[pID][x][y].hitted || boardRef.game[pID][x][y].marked);
+
         //Get random ship
-        Ship sh = this.getPlacedShips().get((int)(Math.random() * (this.getPlacedShips().size() - 1)));
+        Ship sh = placedShips.get(placedShips.size() > 1 ? r.nextInt(placedShips.size()-1) : 0);
         
         //Get weapon
-        Weapon wpn = null;
+        Weapon wpn;
         boolean useNuclear = false;
         
         if (this.nuclearOption > 0) {
@@ -55,12 +51,11 @@ public class CPUPlayer extends Player {
             if(useNuclear)
                 this.nuclearOption--;
         }
+        
         if(useNuclear)
-        {
             wpn = new Weapon.NuclearWeapon();
-        } else {
-            wpn = sh.getAvailWeapons().get((int)(Math.random() * (sh.getAvailWeapons().size() - 1)));
-        }
+        else
+            wpn = sh.getAvailWeapons().get(sh.weapons.size() > 1 ? r.nextInt(sh.weapons.size()-1) : 0);
         
         //Perform shot!
         Point pt = new Point(x, y);

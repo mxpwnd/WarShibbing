@@ -13,7 +13,9 @@ public abstract class Ship
     protected final Player playerRef;
     protected Field[] fieldsRef;
     protected final List<Weapon> weapons = new ArrayList<>();
-    protected final Map<Weapon, Integer> ammo = new HashMap<>();
+    protected final Map<String, Integer> ammo = new HashMap<>();
+    
+    public abstract int getLength();
     
     public Ship(Player ref, Field[] fields)
     {
@@ -23,10 +25,8 @@ public abstract class Ship
         Weapon w = new Cannon();
         
         weapons.add(w);
-        ammo.put(w, Integer.MAX_VALUE);
+        ammo.put(w.getName(), Integer.MAX_VALUE);
     }
-    
-    public abstract int getLength();
     
     public String getName() {
         return this.getClass().getSimpleName();
@@ -50,19 +50,16 @@ public abstract class Ship
         }
         
         this.playerRef.removeShip(this);    //"This ship ain't available no more"
+        this.playerRef.placedShips.add(this);
     }
     
     public boolean Shoot(Player targetPlayer, Weapon usedWeapon, Point targetField)
     {
-        if(ammo.get(usedWeapon) > 0)
-        {
-            ammo.put(usedWeapon, ammo.get(usedWeapon)-1);
-            return targetPlayer.handleShot(usedWeapon, targetField);
-        }
-        else
-            playerRef.boardRef.GetPresentationHelper().PresentError("out of ammo");
+        if(!(usedWeapon instanceof NuclearWeapon))
+            ammo.put(usedWeapon.getName(), ammo.get(usedWeapon.getName())-1);
         
-        return false;
+        this.playerRef.boardRef.GetPresentationHelper().PresentInfo(String.format("Player[%d] targets Player[%d] with %s and shoot with %s on field %s", this.playerRef.ID+1, targetPlayer.ID+1, this.getName().toLowerCase(), usedWeapon.getName().toLowerCase(), targetField.toString()));
+        return targetPlayer.handleShot(usedWeapon, targetField);
     }
     
     public boolean IsDestroyed()
